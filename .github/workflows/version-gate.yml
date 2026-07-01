@@ -1,0 +1,22 @@
+name: Version Gate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-version:
+    name: Version bump check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check VERSION was updated
+        run: |
+          if git diff origin/main...HEAD --name-only | grep -q '^VERSION$'; then
+            echo "✅ VERSION file was updated"
+          else
+            echo "⚠️  VERSION file was not updated. Consider bumping the version."
+          fi

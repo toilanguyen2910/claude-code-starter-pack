@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-linux:
+    name: Test (Linux)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq shellcheck
+          pip install pyyaml
+
+      - name: Run tests
+        run: bash tests/run.sh
+
+  test-macos:
+    name: Test (macOS)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          brew install jq shellcheck
+          pip3 install pyyaml
+
+      - name: Run tests
+        run: bash tests/run.sh
+
+  test-windows:
+    name: Test (Windows PowerShell)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run PowerShell tests
+        run: powershell -ExecutionPolicy Bypass -File tests/run_windows.ps1
+
+  validate-json:
+    name: Validate JSON
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check JSON files
+        run: |
+          for f in $(find . -name '*.json' -o -name '*.json.example'); do
+            echo "Validating $f..."
+            python3 -m json.tool "$f" > /dev/null
+          done
+          echo "All JSON files valid."
+
+  validate-markdown:
+    name: Validate Markdown links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for broken internal links
+        run: |
+          errors=0
+          for link in $(grep -roP '\[.*?\]\(((?!http)[^)]+)\)' --include='*.md' -h | grep -oP '\(([^)]+)\)' | tr -d '()'); do
+            # Strip anchor
+            file="${link%%#*}"
+            if [[ -n "$file" ]] && [[ ! -e "$file" ]]; then
+              echo "Broken link: $link"
+              errors=$((errors + 1))
+            fi
+          done
+          if [[ $errors -gt 0 ]]; then
+            echo "$errors broken link(s) found"
+            exit 1
+          fi
+          echo "All internal links valid."
