@@ -1,0 +1,8 @@
+# Thư mục/file không cần push
+mnt/
+
+# File gốc đã được di chuyển vào đúng vị trí
+/SKILL.md
+/protect-files.sh
+/run.sh
+/settings.json.example

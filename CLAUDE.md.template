@@ -1,0 +1,62 @@
+# CLAUDE.md
+
+> Copy this file to your project root as `CLAUDE.md` and fill in the blanks.
+> Delete this comment block and any section you don't need — a short, accurate
+> file beats a long, stale one. Claude Code loads this on every session, so
+> every line here has a recurring token cost.
+
+## Project overview
+
+<!-- One or two sentences: what this project is and who it's for. -->
+
+## Tech stack
+
+<!-- Language, framework, package manager, database. Be specific about versions
+     if they matter (e.g. "Node 20+", "Python 3.12", "Godot 4.3"). -->
+
+## Commands
+
+<!-- The commands you run most often. Claude will use these instead of guessing. -->
+
+- Install deps: `...`
+- Run dev server: `...`
+- Run tests: `...`
+- Lint / format: `...`
+- Build: `...`
+
+## Project structure
+
+<!-- Only the parts that aren't obvious from the file tree. Skip this section
+     if your layout is a standard framework default. -->
+
+## Conventions
+
+<!-- Things Claude would otherwise guess wrong: naming style, where new files
+     go, how errors are handled, which patterns to follow or avoid. -->
+
+- ...
+
+## Testing
+
+<!-- How Claude should verify its own work before calling something done. -->
+
+- ...
+
+## What NOT to do
+
+<!-- The mistakes you've had to correct more than once. This section earns
+     its keep fast. -->
+
+- ...
+
+---
+<!--
+Tips for keeping this file useful:
+- Prefer short, imperative bullets over paragraphs.
+- If a section grows into a multi-step procedure, move it into a skill under
+  .claude/skills/ instead — skills only load into context when used, so they
+  don't cost tokens on every turn the way CLAUDE.md does.
+- Run `/memory` inside Claude Code to view and edit this file interactively.
+- Team-shared instructions go here (commit to git). Personal preferences that
+  only apply to you go in ~/.claude/CLAUDE.md instead.
+-->
