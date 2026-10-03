@@ -13,11 +13,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y jq shellcheck
-          pip install pyyaml
+          python -m pip install --upgrade pip
+          python -m pip install pyyaml
 
       - name: Run tests
         run: bash tests/run.sh
@@ -28,10 +34,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Install dependencies
         run: |
           brew install jq shellcheck
-          pip3 install pyyaml
+          python -m pip install --upgrade pip
+          python -m pip install pyyaml
 
       - name: Run tests
         run: bash tests/run.sh
@@ -68,7 +80,7 @@ jobs:
       - name: Check for broken internal links
         run: |
           errors=0
-          for link in $(grep -roP '\[.*?\]\(((?!http)[^)]+)\)' --include='*.md' -h | grep -oP '\(([^)]+)\)' | tr -d '()'); do
+          for link in $(grep -roP '\[.*?\]\(((?!https?://|mailto:)[^)]+)\)' --include='*.md' -h | grep -oP '\(([^)]+)\)' | tr -d '()'); do
             # Strip anchor
             file="${link%%#*}"
             if [[ -n "$file" ]] && [[ ! -e "$file" ]]; then
