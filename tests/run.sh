@@ -142,7 +142,7 @@ if out=$("$ROOT/setup.sh" 2>&1); then
 else
   bad "setup.sh (personal) exits 0" "$out"
 fi
-count=$(find "$HOME/.claude/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l)
+count=$(find "$HOME/.claude/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d '[:space:]')
 if [[ "$count" == "4" ]]; then
   ok "installs all 4 skills to \$HOME/.claude/skills"
 else
@@ -175,7 +175,7 @@ if out=$("$ROOT/setup.sh" --project 2>&1); then
 else
   bad "setup.sh --project exits 0" "$out"
 fi
-count=$(find ".claude/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l)
+count=$(find ".claude/skills" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d '[:space:]')
 [[ "$count" == "4" ]] && ok "installs 4 skills into ./.claude/skills" || bad "installs 4 skills into ./.claude/skills" "found $count"
 [[ -f ".claude/settings.json" ]] && ok "creates .claude/settings.json" || bad "creates .claude/settings.json" "missing"
 [[ -x ".claude/hooks/protect-files.sh" ]] && ok "copies hook and keeps it executable" || bad "copies hook and keeps it executable" "missing or not executable"
